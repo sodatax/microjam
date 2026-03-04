@@ -7,6 +7,7 @@
 #include "bn_sprite_items_reb_moon.h"
 #include "bn_sprite_items_reb_earth.h"
 #include "bn_sprite_animate_actions.h"
+#include "reb_moon.h"
 #include "bn_optional.h"
 
 namespace reb
@@ -42,6 +43,10 @@ namespace reb
         private:
             bn::sprite_ptr _sunSprite = bn::sprite_items::reb_sun.create_sprite(-105,0);
             bn::sprite_ptr _earthSprite = bn::sprite_items::reb_earth.create_sprite(75,0);
+            moon _moon;
+            bn::optional<bn::sprite_animate_action<10>> _sunAnimation;
+            static constexpr bn::fixed earth_x =  75;
+            static constexpr bn::fixed earth_y =   0;
             bool _victory;
     };
 }

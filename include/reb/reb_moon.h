@@ -6,6 +6,7 @@
 #include "bn_optional.h"
 #include "bn_sprite_items_reb_moon.h"
 
+
 namespace reb
 {
     class moon
@@ -29,7 +30,7 @@ namespace reb
             [[nodiscard]] bn::fixed angle() const;
 
         private:
-            bn::sprite_ptr _sprite;
+            bn::sprite_ptr _moonSprite;
             bn::fixed _earth_x;
             bn::fixed _earth_y;
             bn::fixed _orbit_radius;
