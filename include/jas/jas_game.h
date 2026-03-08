@@ -4,7 +4,7 @@
 #include <bn_sprite_ptr.h>
 
 #include "mj/mj_game.h"
-#include "jas/player.h"
+#include "jas/jas_player.h"
 
 // All game functions/classes/variables/constants scoped to the namespace
 namespace jas
