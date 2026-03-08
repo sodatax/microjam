@@ -1,5 +1,8 @@
-#include "cat_cat_stellar_game.h"
+#include "cat/cat_cat_stellar_game.h"
+
 #include "mj/mj_game_list.h"
+
+#include "bn_sprite_items_cat_star.h"
 
 
 // add an anonymous namespace after your includes but before 
@@ -24,9 +27,18 @@ namespace cat
  * @param data shared information, such as a rng and number of frames left in the microgame
  */
 cat_cat_stellar_game::cat_cat_stellar_game([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data& data) :
-    mj::game("cat")
+    mj::game("cat"),
+    _player({0, 0}, 2),
+    _stars_collected(0)
     {
+        for(int i = 0; i < _total_stars; ++i) {
+            bn::fixed x = bn::fixed(data.random.get_int(200)) - 100; // Random x between -100 and 100
+            bn::fixed y = bn::fixed(data.random.get_int(120)) - 60; // Random y between -60 and 60
+            _stars[i] = bn::sprite_items::cat_star.create_sprite({x, y});
+        }
     }
+
+    
 
     /**
  * The instructions given to the player at the beginning of the microgame.
@@ -58,14 +70,9 @@ int cat_cat_stellar_game::total_frames() const {
  */
 mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data& data)
 {
-   
-    return mj::game_result();
-
-    // Creates a game result indicating whether the game is finished and whether the title should be hidden early
-    // For this game the game should end early if the player has won (if victory returns true)
-    // The title is not hidden early (false is passed), so the title disappears at the default time
-    mj::game_result result(victory(), false);
-    return result;
+    _player.update();
+    _check_collection();
+    return { victory(), false};
 }
 
 /**
@@ -74,7 +81,7 @@ mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data&
  * In this particular microgame the player wins if they make the ball leave the screen.
  */
 bool cat_cat_stellar_game::victory() const {
-    return false; // TODO: implement victory condition
+    return _stars_collected >= _stars_to_win;
 }
 
 /**
@@ -82,6 +89,29 @@ bool cat_cat_stellar_game::victory() const {
  * 
  * @param data shared information, such as a rng and number of frames left in the microgame
  */
+
+void cat_cat_stellar_game::_check_collection()
+{
+    bn::fixed_point player_pos = _player.position();
+
+    for(auto& star : _stars)
+    {
+        if(star.has_value())
+        {
+            bn::fixed dx = player_pos.x() - star->x();
+            bn::fixed dy = player_pos.y() - star->y();
+            // squared distance avoids needing sqrt
+            bn::fixed dist_sq = (dx * dx) + (dy * dy);
+
+            if(dist_sq < _collect_distance * _collect_distance)
+            {
+                star.reset(); // hides the sprite and frees it
+                _stars_collected++;
+            }
+        }
+    }
+}
+
 void cat_cat_stellar_game::fade_in([[maybe_unused]] const mj::game_data& data)
 {
 }

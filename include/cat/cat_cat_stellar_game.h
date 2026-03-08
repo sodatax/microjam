@@ -2,8 +2,10 @@
 #define CAT_CAT_STELLAR_GAME_H
 
 #include "mj/mj_game.h"
-#include "bn_string.h"
-
+#include "bn_sprite_ptr.h"
+#include "bn_optional.h"
+#include "bn_array.h"
+#include "cat/cat_player.h"
 
 namespace cat
 {
@@ -66,8 +68,18 @@ namespace cat
          */
         void fade_out(const mj::game_data& data) override;
 
-    
-};
+    private:
+        // The character that the player can move
+        static constexpr int _stars_to_win = 3;
+        static constexpr int _total_stars = 5;
+        static constexpr bn::fixed _collect_distance = 16;
 
+        cat_player _player;
+        bn::array<bn::optional<bn::sprite_ptr>, 5> _stars;
+        int _stars_collected;
+
+        void _check_collection();
+};
 }
-#endif 
+
+#endif // CAT_CAT_STELLAR_GAME_H
