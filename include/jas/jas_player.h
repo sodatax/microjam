@@ -5,7 +5,7 @@
 #include <bn_sprite_ptr.h>
 #include <bn_display.h>
 
-// All game functions/classes/variables/constants scoped to the namespace
+// All game functions/classes/variables/constants scoped to the namespace test
 namespace jas
 {
 

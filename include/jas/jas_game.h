@@ -4,7 +4,7 @@
 #include <bn_sprite_ptr.h>
 
 #include "mj/mj_game.h"
-#include "jas/player.h"
+#include "jas/jas_player.h"
 
 // All game functions/classes/variables/constants scoped to the namespace
 namespace jas
@@ -13,7 +13,7 @@ namespace jas
     {
     public:
         /**
-         * Constructor for an instance of an aub_test_game
+         * Constructor for an instance of an jas_game
          *
          * @param completed_games how many microgames the player has completed so far
          * @param data shared information, such as a rng and number of frames left in the microgame
