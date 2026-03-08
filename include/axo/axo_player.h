@@ -45,6 +45,7 @@ class player {
         bn::fixed _speed;
         bn::size _size;
         bn::rect _bounding_box;
+        bool still_alive;
 };
 
 }
