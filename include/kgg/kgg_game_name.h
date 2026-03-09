@@ -3,8 +3,8 @@
 
 #include "mj/mj_game.h"
 
-namespace kgg {  
-    
+namespace kgg {
+
 class kgg_game_name : public mj::game
 {
 
@@ -12,17 +12,17 @@ public:
 
     kgg_game_name(int completed_games, const mj::game_data& data);
 
-    bn::string_view title() const override;
+    bn::string<16> title() const override;
 
     int total_frames() const override;
 
-    mj::game_result play() override;
+    mj::game_result play(const mj::game_data& data) override;
 
     bool victory() const override;
 
-    void fade_in() override;
+    void fade_in(const mj::game_data& data) override;
 
-    void fade_out() override;
+    void fade_out(const mj::game_data& data) override;
 
 };
 
