@@ -20,5 +20,6 @@ namespace jpb {
 
       private:
         jpb_player _player;
+      
   };
 }
