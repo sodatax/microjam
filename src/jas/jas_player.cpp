@@ -20,6 +20,7 @@ namespace jas
         : _sprite(bn::sprite_items::jas_dot.create_sprite(starting_position)),
           _vertical_speed(vertical_speed),
           _gravity(gravity),
+          _crashed(false),
           _engine_fired(false)
     {
     }
@@ -33,8 +34,17 @@ namespace jas
         {
             engineOn(BOOST_ACCELERATION);
         }
-        _vertical_speed += _gravity;
-        _sprite.set_y(_sprite.y() + _vertical_speed);
+        if (crashed() || (on_surface() && at_crash_velocity()))
+        {
+            _crashed = true;
+            _sprite.set_y(MAX_Y);
+            _vertical_speed = 0;
+        }
+        else
+        {
+            _vertical_speed += _gravity;
+            _sprite.set_y(_sprite.y() + _vertical_speed);
+        }
     }
 
     void player::engineOn(bn::fixed engine_thrust)
@@ -63,5 +73,10 @@ namespace jas
     bool player::at_crash_velocity() const
     {
         return bn::abs(_vertical_speed) > CRASH_VELOCITY;
+    }
+
+    bool player::crashed() const
+    {
+        return _crashed;
     }
 }

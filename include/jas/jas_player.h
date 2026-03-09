@@ -64,6 +64,8 @@ namespace jas
          */
         bool at_crash_velocity() const;
 
+        bool crashed() const;
+
     private:
         // The sprite to display the player
         bn::sprite_ptr _sprite;
@@ -71,6 +73,7 @@ namespace jas
         bn::fixed _vertical_speed;
 
         bn::fixed _gravity;
+        bool _crashed;
         bool _engine_fired;
     };
 

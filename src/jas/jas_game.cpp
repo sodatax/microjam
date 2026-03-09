@@ -4,6 +4,7 @@
 #include "bn_display.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_animate_actions.h"
+#include "bn_log.h"
 
 #include "mj/mj_game_list.h"
 
@@ -88,7 +89,7 @@ namespace jas
      */
     bool jas_game::victory() const
     {
-        return (_player.on_surface() && !_player.at_crash_velocity());
+        return (_player.on_surface() && (!_player.crashed() && !_player.at_crash_velocity()));
     }
 
     /**
