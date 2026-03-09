@@ -58,13 +58,14 @@ mj::game_result any_game_name::play(const mj::game_data& data) {
         _player->update(bn::span<const platform>(_platforms, 3));
 
         if (_player->y() < -50) { 
-            _has_lost = false; 
-            return mj::game_result(true, true); 
+         
+            return mj::game_result(true,true);
+             
         }
 
         if (_player->y() > 65) {
             _has_lost = true; 
-            return mj::game_result(false, true); 
+            return mj::game_result(true,false);
         }
 
     }
