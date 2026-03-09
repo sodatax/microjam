@@ -33,6 +33,14 @@ class player {
          */
         void update();
 
+
+        /** 
+         * Simple attraction function to start out with. 
+         * Moves the player towards the blackhole at a fixed rate
+         * @param bh_position the position of the black hole to be attracted to
+         */
+        void attraction(bn::fixed_point bh_position);
+
         /**
          * Returns whether the player has left the screen
          * 

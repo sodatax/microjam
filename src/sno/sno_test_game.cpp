@@ -45,6 +45,7 @@ namespace sno
     mj::game_result sno_test_game::play([[maybe_unused]] const mj::game_data &data)
     {
         _player.update();
+        _player.attraction(_black_hole.position());
         mj::game_result result(victory(), false);
         return result;
     }

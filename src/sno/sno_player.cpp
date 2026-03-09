@@ -54,4 +54,23 @@ namespace sno
                _sprite.y() > MAX_Y ||
                _sprite.y() < MIN_Y;
     }
+
+    void player::attraction(bn::fixed_point bh_position) 
+    {
+        bn::fixed_point pos = _sprite.position();
+
+        if(pos.x() < bh_position.x()) {
+            _sprite.set_x(pos.x() + 1);
+        } 
+        else if(pos.x() > bh_position.x()) {
+            _sprite.set_x(pos.x() - 1);
+        }
+
+        if(pos.y() < bh_position.y()) {
+            _sprite.set_y(pos.y() + 1);
+        }
+        else if(pos.y() > bh_position.y()) {
+            _sprite.set_y(pos.y() - 1);
+        }
+    }
 }
