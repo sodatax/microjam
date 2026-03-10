@@ -12,10 +12,11 @@ input::input() {
 
 // Reads the input from the D-Pad each frame
 void input::update() {
-    if(bn::keypad::up_pressed()) { _input = 0; }
-    else if(bn::keypad::right_pressed()) { _input = 1; }
-    else if(bn::keypad::down_pressed()) { _input = 2; }
-    else if(bn::keypad::left_pressed()) { _input = 3; }
+    
+    if(bn::keypad::up_held()) { _input = 0; }
+    else if(bn::keypad::right_held()) { _input = 1; }
+    else if(bn::keypad::down_held()) { _input = 2; }
+    else if(bn::keypad::left_held()) { _input = 3; }
     // No input results in a default value
     else {_input = -1;}
 

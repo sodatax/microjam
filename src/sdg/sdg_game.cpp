@@ -54,7 +54,7 @@ namespace sdg{
     {
         __input.update();
 
-        mj::game_result result(victory(), false);
+        mj::game_result result(victory());
         return mj::game_result();
     }
 
