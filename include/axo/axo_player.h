@@ -7,6 +7,8 @@
 #include <bn_rect.h>
 #include <bn_size.h>
 
+#include "axo/axo_hitbox.h"
+
 // All game functions/classes/variables/constants scoped to the namespace
 namespace axo {
 
@@ -36,7 +38,7 @@ class player {
          */
         void update();
 
-        bn::rect bounding_box() const;
+        const hitbox& get_hitbox() const;
 
         bool alive() const;
 
@@ -48,7 +50,7 @@ class player {
         // The pixels/frame the player moves in each dimension
         bn::fixed _speed;
         bn::size _size;
-        bn::rect _bounding_box() const;
+        hitbox _hitbox;
         bool _alive = true;
 };
 

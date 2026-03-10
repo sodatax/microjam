@@ -8,7 +8,6 @@
 
 #include "mj/mj_game_list.h"
 
-
 // String arrays for the credits can go in an anonymous namespace
 namespace
 {
@@ -80,10 +79,10 @@ mj::game_result axo_aquatic_galaxy_defense::play([[maybe_unused]] const mj::game
 {
     // update the player position
     _player.update();
-    // spawn single obstacle and update it
+
     for(auto& obstacle : _obstacles) {
         obstacle.update(_player);
-        if(_player.bounding_box().intersects(obstacle.bounding_box())) {
+        if(_player.get_hitbox().intersects(obstacle.get_hitbox())) {
             _player.kill();
         }
     }

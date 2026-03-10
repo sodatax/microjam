@@ -6,13 +6,6 @@
 
 // All game functions/classes/variables/constants scoped to the namespace
 namespace axo {
-    static bn::rect create_bounding_box(bn::sprite_ptr sprite, bn::size box_size)
-    {
-           return bn::rect(sprite.x().round_integer(),
-                    sprite.y().round_integer(),
-                    box_size.width(),
-                    box_size.height());
-    }
 
 /**
  * player constructor
@@ -24,19 +17,15 @@ obstacle::obstacle(bn::fixed starting_x, bn::fixed starting_y, bn::fixed speed, 
     _sprite(bn::sprite_items::axo_obstacle.create_sprite(bn::fixed_point(starting_x, starting_y))),
     _speed(speed),
     _size(obstacle_size),
-    _bounding_box(create_bounding_box(_sprite, _size))
+    _hitbox(_sprite, _size)
 {}
 
 void obstacle::update(player& player){
-    _bounding_box = create_bounding_box(_sprite, _size);
-
-    // moves obstacles towards the left
+    // moves obstacles towards the right
     _sprite.set_x(_sprite.x() + _speed);
-
 }
 
-bn::rect obstacle::bounding_box() const {
-        return create_bounding_box(_sprite, _size);
+const hitbox& obstacle::get_hitbox() const {
+        return _hitbox;
     }
-
 }

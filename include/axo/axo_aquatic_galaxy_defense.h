@@ -6,6 +6,7 @@
 #include "mj/mj_game.h"
 #include "axo/axo_player.h"
 #include "axo/axo_obstacle.h"
+#include "axo/axo_hitbox.h"
 
 namespace axo
 {
@@ -14,7 +15,7 @@ class axo_aquatic_galaxy_defense : public mj::game
 {
     public:
         /**
-         * Constructor for an instance of an aub_test_game
+         * Constructor for an instance of an axo_aquatic_galaxy_defense game
          * 
          * @param completed_games how many microgames the player has completed so far
          * @param data shared information, such as a rng and number of frames left in the microgame
@@ -68,7 +69,7 @@ class axo_aquatic_galaxy_defense : public mj::game
         // The character that the player can move
         player _player;
         // The obstacles in the game
-        bn::vector<obstacle, 3> _obstacles = {};
+        bn::vector<obstacle, 10> _obstacles = {};
 };
 
 }

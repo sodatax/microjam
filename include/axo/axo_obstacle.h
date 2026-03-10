@@ -6,7 +6,9 @@
 #include <bn_size.h>
 #include <bn_rect.h>
 #include <bn_display.h>
+
 #include "axo/axo_player.h"
+#include "axo/axo_hitbox.h"
 
 
 // All game functions/classes/variables/constants scoped to the namespace
@@ -33,7 +35,7 @@ class obstacle {
          */
         void update(player& player);
 
-        bn::rect bounding_box() const;
+        const hitbox& get_hitbox() const;
 
         //Out of bounds not needed for obstacle, meant to leave screen anyways
     
@@ -44,8 +46,7 @@ class obstacle {
         bn::fixed _speed;
         //size
         bn::size _size;
-        // bounding_rect
-        bn::rect _bounding_box;
+        hitbox _hitbox;
 };
 
 }

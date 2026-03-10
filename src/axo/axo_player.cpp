@@ -8,17 +8,6 @@
 namespace axo {
 
 /**
- * Creates a rectangle centered at a sprite's location with a given size.
- * sprite the sprite to center the box around
- * box_size the dimensions of the bounding box
- */
-static bn::rect create_bounding_box(bn::sprite_ptr _sprite, bn::size box_size)
-{
-    return bn::rect(bn::point(_sprite.x().right_shift_integer(), 
-        _sprite.y().right_shift_integer()), box_size);
-}
-
-/**
  * player constructor
  * 
  * @param starting_position the location to start the player at
@@ -27,7 +16,8 @@ static bn::rect create_bounding_box(bn::sprite_ptr _sprite, bn::size box_size)
 player::player(bn::fixed_point starting_position, bn::fixed speed, bn::size player_size) :
     _sprite(bn::sprite_items::axo_axolotl.create_sprite(starting_position)),
     _speed(speed),
-    _size(player_size)
+    _size(player_size),
+    _hitbox(_sprite, _size)
 {
 }
 
@@ -61,11 +51,10 @@ void player::update() {
     if (_sprite.y() > MAX_Y) {
         _sprite.set_y(MAX_Y);
     }
-
 }
 
-    bn::rect player::bounding_box() const {
-        return create_bounding_box(_sprite, _size);
+    const hitbox& player::get_hitbox() const {
+        return _hitbox;
     }
 
     bool player::alive() const {
@@ -75,5 +64,4 @@ void player::update() {
     void player::kill() {
         _alive = false;
     }
-
 }
