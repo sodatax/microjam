@@ -29,7 +29,7 @@ namespace sdg{
 
     private:
         // An instance of the players capability to input
-        input __input;
+        input player;
 }; 
 }
 

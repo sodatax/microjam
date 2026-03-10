@@ -29,8 +29,6 @@ namespace sdg {
             int progress = 0;
             // Correct code of fixed values.
             bn::array<int, 5> challenge;
-            // Boolean tracking whether the code is correct or not.
-            bool completed;
     };
 }
 

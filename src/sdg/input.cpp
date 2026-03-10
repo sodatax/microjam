@@ -36,7 +36,6 @@ void input::update() {
 // if code complete, victory is achieved
 bool input::code_is_correct() const {
     return progress == challenge.size();
-    BN_LOG("VICTORY! (code_is_correct tripped)");
 }
 
 }
