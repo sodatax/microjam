@@ -17,9 +17,13 @@ MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 
 
 namespace jpb {
+    static constexpr bn::size PLAYER_SIZE = {8, 8};
+    static constexpr bn::size ENEMY_SIZE = {8, 8};
+
     jpb_alien_shooter::jpb_alien_shooter([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data& data) :
         mj::game("jpb"),
-        _player(jpb_player({20, 0}, {-20, 0}, 2))
+        _player(jpb_player({20, 0}, PLAYER_SIZE, 2)),
+        _enemy(jpb_enemy({-20, 0}, ENEMY_SIZE))
     {}
 
     bn::string<16> jpb_alien_shooter::title() const {
@@ -32,13 +36,14 @@ namespace jpb {
 
     mj::game_result jpb_alien_shooter::play([[maybe_unused]] const mj::game_data& data) {
         _player.update();
+        _enemy.update();
 
         mj::game_result result(victory(), false);
         return result;
     }
 
     bool jpb_alien_shooter::victory() const {
-        return _player.enemy_intersect();
+        return _player.enemy_intersect(_player& _player, _enemy& _enemy);
     }
 
     void jpb_alien_shooter::fade_in([[maybe_unused]] const mj::game_data& data) {

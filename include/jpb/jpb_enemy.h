@@ -3,14 +3,18 @@
 
 #include "jpb/jpb_player.h"
 
-// namespace jpb {
-//     static constexpr bn::size ENEMY_SIZE = {8, 8};
+namespace jpb {
 
-//     jpb_enemy(bn::fixed_point enemy_position, bn::size enemy_size, bn::fixed _speed);
+class jpb_enemy {
+    public:
+        jpb_enemy(bn::fixed_point enemy_position, bn::size enemy_size);
 
-//     private:
-//         bn::sprite_ptr enemy_sprite;
-//         bn::size enemy_size;
-// }
+        void update();
+
+        bn::sprite_ptr enemy_sprite;
+        bn::rect enemy_box;
+};
+
+}
 
 #endif

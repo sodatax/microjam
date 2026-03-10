@@ -11,12 +11,12 @@ namespace jpb {
                         box_size.height());
     }
 
-    jpb_player::jpb_player(bn::fixed_point starting_position, bn::fixed_point enemy_position, bn::fixed _speed) :
+    jpb_player::jpb_player(bn::fixed_point starting_position, bn::size _size, bn::fixed _speed) :
         player_sprite(bn::sprite_items::jpb_ship.create_sprite(starting_position)),
-        enemy_sprite(bn::sprite_items::jpb_ship.create_sprite(enemy_position)),
-        speed(_speed)
+        speed(_speed),
+        player_box(create_bounding_box(player_sprite, _size))
     {}
-
+    
     void jpb_player::update() {
         if(bn::keypad::left_held()) {
             player_sprite.set_x(player_sprite.x() - speed);
@@ -30,10 +30,12 @@ namespace jpb {
         if(bn::keypad::down_held()) {
             player_sprite.set_y(player_sprite.y() + speed);
         }
+
+        player_box = create_bounding_box(player_sprite, {8, 8});
+
     }
 
-    // We'll improve this to have bounding boxes next wave
-    bool jpb_player::enemy_intersect() const {
-        return player_sprite.x() == enemy_sprite.x() && player_sprite.y() == enemy_sprite.y();
+    bool jpb_player::enemy_intersect(jpb_player& player, jpb_enemy& enemy) const {
+        return player.player_box.intersects(enemy.enemy_box);
     }
 }
