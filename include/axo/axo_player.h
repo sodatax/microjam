@@ -8,6 +8,7 @@
 #include <bn_size.h>
 
 #include "axo/axo_hitbox.h"
+#include "axo/axo_bubble.h"
 
 // All game functions/classes/variables/constants scoped to the namespace
 namespace axo {
@@ -43,6 +44,8 @@ class player {
         bool alive() const;
 
         void kill();
+
+        void clear_bubbles();
     
     private:
         // The sprite to display the player

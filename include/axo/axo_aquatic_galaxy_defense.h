@@ -7,6 +7,7 @@
 #include "axo/axo_player.h"
 #include "axo/axo_obstacle.h"
 #include "axo/axo_hitbox.h"
+#include "axo/axo_bubble.h"
 
 namespace axo
 {
@@ -46,12 +47,10 @@ class axo_aquatic_galaxy_defense : public mj::game
         
         /**
          * Returns whether the player has won the microgame.
-         * 
-         * In this particular microgame the player wins if they make the ball leave the screen.
          */
         bool victory() const override;
 
-                /**
+        /**
          * Called repeatedly as the game fades into view. Unused for this particular microgame.
          * 
          * @param data shared information, such as a rng and number of frames left in the microgame
@@ -69,7 +68,7 @@ class axo_aquatic_galaxy_defense : public mj::game
         // The character that the player can move
         player _player;
         // The obstacles in the game
-        bn::vector<obstacle, 10> _obstacles = {};
+        bn::vector<obstacle, 12> _obstacles = {};
 };
 
 }
