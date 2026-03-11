@@ -6,13 +6,9 @@
 #include <bn_display.h>
 #include <bn_rect.h>
 
-// All game functions/classes/variables/constants scoped to the namespace
+
 namespace mar
 {
-
-    /**
-     *
-     */
     class mar_enemy
     {
         // The bounds of the screen
@@ -32,14 +28,16 @@ namespace mar
 
         // move the enemy
         void update();
-        bn::rect &rect() { return _rect; }
+        bn::rect &rect() { 
+            return _rect; 
+        }
 
     private:
         // The sprite to display the enemy
         bn::sprite_ptr _sprite;
         // The pixels/frame the enemy moves in each dimension
         bn::fixed _speed;
-
+    // The rectangle used for collision detection
         bn::rect _rect;
     };
 
