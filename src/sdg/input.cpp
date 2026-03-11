@@ -11,7 +11,7 @@ input::input(int difficulty) : _diff(difficulty), _progress(0)
     bn::random rng;
 
     // loop to add inputs based on 
-    for (int i = 0; i < _diff - 1; i++) {
+    for (int i = 0; i < _diff; i++) {
         int digit = rng.get_int(0, 4);
         _challenge.push_back(digit); 
         BN_LOG(digit);
