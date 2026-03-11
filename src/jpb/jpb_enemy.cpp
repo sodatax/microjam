@@ -1,5 +1,6 @@
 #include "jpb/jpb_enemy.h"
 #include "bn_sprite_items_jpb_alien.h"
+#include "jpb_missile.h"
 
 namespace jpb {
 

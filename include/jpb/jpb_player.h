@@ -7,6 +7,7 @@
 #include <bn_rect.h>
 #include <bn_size.h>
 #include "jpb/jpb_enemy.h"
+#include "jpb/jpb_missile.h"
 
 namespace jpb {
 

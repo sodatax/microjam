@@ -1,6 +1,7 @@
 #include "jpb/jpb_player.h"
 #include <bn_keypad.h>
 #include "bn_sprite_items_jpb_ship.h"
+#include "bn_sprite_items_jpb_missile.h"
 
 namespace jpb {
     
