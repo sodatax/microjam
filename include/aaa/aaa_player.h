@@ -3,6 +3,7 @@
 
 #include <bn_sprite_ptr.h>
 #include <bn_rect.h>
+
 namespace aaa
 {
     class aaa_Player
@@ -21,6 +22,6 @@ namespace aaa
         // how many degrees the player rotates per button press
         int _rotation_speed;
         bn::rect _boundingBox;
-        };
+    };
 }
 #endif

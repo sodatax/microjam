@@ -63,7 +63,7 @@ namespace aaa
     private:
         aaa_Player _player;
         bn::vector<aaa_enemy, 10> enemies;
-        bn::vector<aaa_Bullet, 5> bullets;
+        bn::vector<aaa_Bullet, 25> bullets;
     };
 }
 

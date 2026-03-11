@@ -3,7 +3,7 @@
 #include "aaa_planetoid.h"
 #include "mj/mj_game_list.h"
 #include "bn_display.h"
-
+#include <bn_core.h>
 namespace
 {
     constexpr bn::string_view code_credits[] = {"KJ, Adam Kurfurst"};
@@ -21,15 +21,15 @@ MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 
 namespace aaa
 {
+    bn::random random;
 
     aaa_planetoids::aaa_planetoids([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data &data) : mj::game("aaa"),
                                                                                                                        _player(bn::fixed_point(0, 0))
     {
-        bn::random random;
 
         for (int i = 0; i < enemies.max_size(); i++)
         {
-            bn::fixed_point pos(random.get_int(-200, 200), random.get_int(-120, 120)); // added extra so some enemies spawn off-screen
+            bn::fixed_point pos(random.get_int(-300, 300), random.get_int(-150, 150)); // added extra so some enemies spawn off-screen
             bn::fixed speed = random.get_fixed(.2, .4);                                // nice slow moving enemies
 
             enemies.push_back(aaa_enemy({pos}, speed));
@@ -58,33 +58,43 @@ namespace aaa
             }
         }
 
-        for (aaa_enemy &enemy : enemies)
+        for (int i = 0; i < enemies.size(); i++)
         {
-
-            enemy.update();
-            if (enemy.getRect().intersects(_player.getRect()))
-            {
-                enemies.erase(enemies.begin());
-            }
+            enemies[i].update();
         }
 
-        for (int i = bullets.size() - 1; i >= 0; --i)
+        // I am aware that this is a nested for loop, but trying to make this operate inside the classes would have required passing in the information for the enemy vector
+        // I am not at this time able to dedicate that much mental power to solve this, so i instead have a nested loop to check each bullet to each enemy
+        for (int i = bullets.size() - 1; i >= 0; i--)
         {
             bullets[i].update();
 
             bn::fixed bX = bullets[i].BulletPos().x();
             bn::fixed bY = bullets[i].BulletPos().y();
 
+            for (int j = 0; j < enemies.size(); j++)
+            {
+                if (bullets[i].getRect().intersects(enemies[j].getRect()))
+                {
+                    enemies.erase(enemies.begin() + j);
+                }
+            }
             if (bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2)
             {
                 bullets.erase(bullets.begin() + i);
             }
         }
+
         return mj::game_result();
     }
 
     bool aaa_planetoids::victory() const
     {
+        // kind of jank but it works if we are hardcoding the inital amount of enemies
+        if (enemies.max_size() - enemies.size() > 1)
+        {
+            return true;
+        }
         return false;
     }
 
