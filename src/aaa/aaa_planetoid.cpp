@@ -21,24 +21,23 @@ MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 
 namespace aaa
 {
-    bn::random random;
 
     aaa_planetoids::aaa_planetoids([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data &data) : mj::game("aaa"),
                                                                                                                        _player(bn::fixed_point(0, 0))
     {
 
-        for (int i = 0; i < enemies.max_size(); i++)
+        for (int i = 0; i < _enemies.max_size(); i++)
         {
-            bn::fixed_point pos(random.get_int(-300, 300), random.get_int(-150, 150)); // added extra so some enemies spawn off-screen
-            bn::fixed speed = random.get_fixed(.2, .4);                                // nice slow moving enemies
+            bn::fixed_point pos(data.random.get_int(-300, 300), data.random.get_int(-150, 150)); // added extra so some _enemies spawn off-screen
+            bn::fixed speed = data.random.get_fixed(.2, .4);                                     // nice slow moving _enemies
 
-            enemies.push_back(aaa_enemy({pos}, speed));
+            _enemies.push_back(aaa_enemy({pos}, speed));
         }
     }
 
     bn::string<16> aaa_planetoids::title() const
     {
-        return "Planetoids";
+        return "Shoot Asteroids!";
     }
 
     int aaa_planetoids::total_frames() const
@@ -52,36 +51,36 @@ namespace aaa
 
         if (bn::keypad::a_pressed())
         {
-            if (bullets.size() != bullets.max_size()) // this makes it so that only the max amount of bullets can be on screen at a time, i tried to resize rthe bullets vector but could not so i did this bandaid fix
+            if (_bullets.size() != _bullets.max_size()) // this makes it so that only the max amount of _bullets can be on screen at a time, i tried to resize rthe _bullets vector but could not so i did this bandaid fix
             {
-                bullets.push_back(aaa_Bullet(bn::fixed_point(0, 0), 5, _player.getAngle()));
+                _bullets.push_back(aaa_Bullet(bn::fixed_point(0, 0), 5, _player.getAngle()));
             }
         }
 
-        for (int i = 0; i < enemies.size(); i++)
+        for (int i = 0; i < _enemies.size(); i++)
         {
-            enemies[i].update();
+            _enemies[i].update();
         }
 
         // I am aware that this is a nested for loop, but trying to make this operate inside the classes would have required passing in the information for the enemy vector
         // I am not at this time able to dedicate that much mental power to solve this, so i instead have a nested loop to check each bullet to each enemy
-        for (int i = bullets.size() - 1; i >= 0; i--)
+        for (int i = _bullets.size() - 1; i >= 0; i--)
         {
-            bullets[i].update();
+            _bullets[i].update();
 
-            bn::fixed bX = bullets[i].BulletPos().x();
-            bn::fixed bY = bullets[i].BulletPos().y();
+            bn::fixed bX = _bullets[i].BulletPos().x();
+            bn::fixed bY = _bullets[i].BulletPos().y();
 
-            for (int j = 0; j < enemies.size(); j++)
+            for (int j = 0; j < _enemies.size(); j++)
             {
-                if (bullets[i].getRect().intersects(enemies[j].getRect()))
+                if (_bullets[i].getRect().intersects(_enemies[j].getRect()))
                 {
-                    enemies.erase(enemies.begin() + j);
+                    _enemies.erase(_enemies.begin() + j);
                 }
             }
             if (bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2)
             {
-                bullets.erase(bullets.begin() + i);
+                _bullets.erase(_bullets.begin() + i);
             }
         }
 
@@ -90,8 +89,8 @@ namespace aaa
 
     bool aaa_planetoids::victory() const
     {
-        // kind of jank but it works if we are hardcoding the inital amount of enemies
-        if (enemies.max_size() - enemies.size() > 1)
+        // kind of jank but it works if we are hardcoding the inital amount of _enemies
+        if (_enemies.max_size() - _enemies.size() > 1)
         {
             return true;
         }
