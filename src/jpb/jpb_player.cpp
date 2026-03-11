@@ -31,7 +31,7 @@ namespace jpb {
             player_sprite.set_y(player_sprite.y() + speed);
         }
 
-        player_box = create_bounding_box(player_sprite, {8, 8});
+        player_box = create_bounding_box(player_sprite, {16, 8});
 
     }
 
