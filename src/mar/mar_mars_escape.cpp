@@ -53,7 +53,7 @@ namespace mar
     }
 
     /**
-     * Game title shown at the beginning of the microgame and breif description of game.
+     * Game title shown at the beginning of the microgame and brief description of game.
      * Must be <= 16 characters long
      */
     bn::string<16> mar_mars_escape::title() const
