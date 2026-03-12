@@ -6,6 +6,7 @@
 #include "bn_optional.h"
 #include "bn_array.h"
 #include "cat/cat_player.h"
+#include "cat/cat_enemy.h"
 #include "bn_sprite_items_cat_star.h"
 #include "bn_regular_bg_ptr.h"
 #include "bn_sprite_text_generator.h"
@@ -30,7 +31,6 @@ namespace cat
          * Must be <= 16 characters long
          */
         bn::string<16> title() const override;
-
 
         /**
          * How long the timer for the game should be set to in frames.
@@ -73,35 +73,33 @@ namespace cat
         void fade_out(const mj::game_data& data) override;
 
     private:
-    // The number of stars the player must collect to win
-    //static constexpr int _stars_to_win = 3;
-    static constexpr int _total_stars = 10;
-    static constexpr bn::fixed _collect_distance = 16;
+        // The number of stars the player must collect to win
+        static constexpr int _total_stars = 10;
+        static constexpr bn::fixed _collect_distance = 16;
 
-    mj::difficulty_level _difficulty;
-    int _stars_to_win;
+        mj::difficulty_level _difficulty;
+        int _stars_to_win;
 
-    cat_player _player;
+        cat_player _player;
+        cat_enemy _enemy;
 
-    bn::sprite_ptr _enemy;
-    bool _enemy_collision() const;
-    void _update_enemy();
+        bn::array<bn::optional<bn::sprite_ptr>, _total_stars> _stars;
+        int _stars_collected;
+        bool _lost;
+       
+        const bn::sprite_text_generator& _text_generator;
+        bn::vector<bn::sprite_ptr, 16> _score_sprites;
 
-    bn::array<bn::optional<bn::sprite_ptr>, _total_stars> _stars;
-    int _stars_collected;
-    bool _lost;
-   
-    bn::sprite_text_generator _text_generator;
-    bn::vector<bn::sprite_ptr, 16> _score_sprites;
+        void _check_collection();
+        void _update_score_display();
 
-    void _check_collection();
+        bn::regular_bg_ptr _background;
 
-    bn::regular_bg_ptr _background;
-
-    //helper function
-    static bn::fixed _recommended_player_speed(mj::difficulty_level difficulty);
-    static int _recommended_stars_to_win(mj::difficulty_level difficulty);
-    static bn::fixed _recommended_enemy_speed(mj::difficulty_level difficulty);
+        //helper functions
+        static bn::fixed _recommended_player_speed(mj::difficulty_level difficulty);
+        static int _recommended_stars_to_win(mj::difficulty_level difficulty);
+        static bn::fixed _recommended_enemy_speed(mj::difficulty_level difficulty);
+        static bn::fixed_point _recommended_enemy_start_position(mj::difficulty_level difficulty);
     };
 }
 

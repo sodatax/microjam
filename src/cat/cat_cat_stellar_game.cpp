@@ -10,8 +10,6 @@
 #include "bn_vector.h"
 #include "bn_string.h"
 
-
-
 //anonymous namespace 
 namespace
 {
@@ -37,21 +35,23 @@ cat_cat_stellar_game::cat_cat_stellar_game([[maybe_unused]] int completed_games,
     _difficulty(recommended_difficulty_level(completed_games, data)),
     _stars_to_win(_recommended_stars_to_win(_difficulty)),
     _player({0, 0}, _recommended_player_speed(_difficulty)),
-    _enemy(bn::sprite_items::cat_enemy.create_sprite(40, 0)),
+    _enemy(_recommended_enemy_start_position(_difficulty).x(), 
+           _recommended_enemy_start_position(_difficulty).y(), 
+           _recommended_enemy_speed(_difficulty)),
     _stars_collected(0),
     _lost(false),
-    _text_generator(mj::small_sprite_font),
+    _text_generator(data.text_generator),
     _background(bn::regular_bg_items::cat_background.create_bg(0, 0))
-    {
-        for(int i = 0; i < _total_stars; ++i) {
-            bn::fixed x = bn::fixed(data.random.get_int(200)) - 100; 
-            bn::fixed y = bn::fixed(data.random.get_int(120)) - 60; 
-            _stars[i] = bn::sprite_items::cat_star.create_sprite({x, y});
-        }
-         _text_generator.generate(-90, -70, "Score: 0", _score_sprites);
+{
+    for(int i = 0; i < _total_stars; ++i) {
+        bn::fixed x = bn::fixed(data.random.get_int(200)) - 100; 
+        bn::fixed y = bn::fixed(data.random.get_int(120)) - 60; 
+        _stars[i] = bn::sprite_items::cat_star.create_sprite({x, y});
     }
+    _update_score_display();
+}
 
-    bn::fixed cat_cat_stellar_game::_recommended_player_speed(mj::difficulty_level difficulty)
+bn::fixed cat_cat_stellar_game::_recommended_player_speed(mj::difficulty_level difficulty)
 {
     switch(difficulty)
     {
@@ -81,71 +81,33 @@ int cat_cat_stellar_game::_recommended_stars_to_win(mj::difficulty_level difficu
     }
 }
 
-/**
- * check if the player has touched the enemy
- * 
- * This function compares the position of the player and the enemy and returns true if they are within a certain distance of each other.
- */
-bool cat_cat_stellar_game::_enemy_collision() const
-{
-    bn::fixed_point player_pos = _player.position();
-
-    bn::fixed dx = player_pos.x() - _enemy.x();
-    bn::fixed dy = player_pos.y() - _enemy.y();
-    bn::fixed dist_sq = (dx * dx) + (dy * dy);
-
-    return dist_sq < 16 * 16;
-}
-
-void cat_cat_stellar_game::_update_enemy()
-{
-    bn::fixed enemy_x = _enemy.x();
-    bn::fixed enemy_y = _enemy.y();
-
-    bn::fixed player_x = _player.position().x();
-    bn::fixed player_y = _player.position().y();
-
-    bn::fixed enemy_speed = _recommended_enemy_speed(_difficulty);
-
-    if(player_x < enemy_x)
-    {
-        enemy_x -= enemy_speed;
-    }
-    else if(player_x > enemy_x)
-    {
-        enemy_x += enemy_speed;
-    }
-
-    if(player_y < enemy_y)
-    {
-        enemy_y -= enemy_speed;
-    }
-    else if(player_y > enemy_y)
-    {
-        enemy_y += enemy_speed;
-    }
-
-    _enemy.set_position(enemy_x, enemy_y);
-}
-
-/**
- * This function returns the recommended speed for the enemy based on the difficulty level.
- */
- bn::fixed cat_cat_stellar_game::_recommended_enemy_speed(mj::difficulty_level difficulty)
+bn::fixed cat_cat_stellar_game::_recommended_enemy_speed(mj::difficulty_level difficulty)
 {
     switch(difficulty)
     {
         case mj::difficulty_level::EASY:
             return 0.4;
-
         case mj::difficulty_level::NORMAL:
             return 0.6;
-
         case mj::difficulty_level::HARD:
             return 0.8;
-
         default:
             return 0.6;
+    }
+}
+
+bn::fixed_point cat_cat_stellar_game::_recommended_enemy_start_position(mj::difficulty_level difficulty)
+{
+    switch(difficulty)
+    {
+        case mj::difficulty_level::EASY:
+            return {100, 60};  // Far from player (0, 0)
+        case mj::difficulty_level::NORMAL:
+            return {80, 50};   // Medium distance
+        case mj::difficulty_level::HARD:
+            return {60, 40};   // Closer
+        default:
+            return {100, 60};
     }
 }
 
@@ -180,11 +142,12 @@ int cat_cat_stellar_game::total_frames() const {
 mj::game_result cat_cat_stellar_game::play([[maybe_unused]] const mj::game_data& data)
 {
     _player.update();
-    _update_enemy();
+    _enemy.update(_player.position());
     _check_collection();
 
-       if(_enemy_collision())
+    if(_enemy.collides_with(_player.position()))
     {
+        _lost = true;
         return { true, false };
     }
 
@@ -207,7 +170,6 @@ bool cat_cat_stellar_game::victory() const {
 /**
  * Checks if the player has collected any stars and updates the score accordingly.
  */
-
 void cat_cat_stellar_game::_check_collection()
 {
     bn::fixed_point player_pos = _player.position();
@@ -225,16 +187,25 @@ void cat_cat_stellar_game::_check_collection()
             {
                 star.reset(); // hides the sprite and frees it
                 _stars_collected++;
-
-                _score_sprites.clear();
-
-                bn::string<20> score_text = "Score: ";
-
-                score_text.append(bn::to_string<2>(_stars_collected));
-                _text_generator.generate(-90, -70, score_text, _score_sprites);
+                _update_score_display();
             }
         }
     }
+}
+
+/**
+ * Updates the score display to show progress (e.g., "3/5 Stars")
+ */
+void cat_cat_stellar_game::_update_score_display()
+{
+    _score_sprites.clear();
+
+    bn::string<20> score_text = bn::to_string<2>(_stars_collected);
+    score_text.append("/");
+    score_text.append(bn::to_string<2>(_stars_to_win));
+    score_text.append(" Stars");
+    
+    _text_generator.generate(-90, -70, score_text, _score_sprites);
 }
 
 /**
@@ -245,7 +216,6 @@ void cat_cat_stellar_game::_check_collection()
 void cat_cat_stellar_game::fade_in([[maybe_unused]] const mj::game_data& data)
 {
 }
-
 
 /**
  * Called repeatedly as the game fades out of view. Unused for this particular microgame.
