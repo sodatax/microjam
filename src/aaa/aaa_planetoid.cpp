@@ -104,8 +104,7 @@ namespace aaa
         for (int i = bullets.size() - 1; i >= 0; i--){
             bullets[i].update();
 
-            bn::fixed bX = bullets[i].BulletPos().x();
-            bn::fixed bY = bullets[i].BulletPos().y();
+            
 
             for (int j = 0; j < enemies.size(); j++){
                 if (bullets[i].getRect().intersects(enemies[j].getRect())){
@@ -113,9 +112,15 @@ namespace aaa
                     asteroids = asteroids - 1;
                 }
             }
-            if (bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2){
+            if (_outOfBounds(bullets[i])){
                 bullets.erase(bullets.begin() + i);
             }
         }
+    }
+
+    bool aaa_planetoids::_outOfBounds(aaa_Bullet bullet){
+        bn::fixed bX = bullet.BulletPos().x();
+        bn::fixed bY = bullet.BulletPos().y();
+        return bX > bn::display::width() / 2 || bY > bn::display::height() / 2 || bX < -bn::display::width() / 2 || bY < -bn::display::height() / 2;
     }
 }
