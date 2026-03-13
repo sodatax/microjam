@@ -32,7 +32,6 @@ namespace aaa
             for (int i = 0; i < _enemies.max_size(); i++)
         {
             bn::fixed_point pos(data.random.get_int(-250, 250), data.random.get_int(-100, 100)); // added extra so some _enemies spawn off-screen
-            //bn::fixed speed = data.random.get_fixed(.2, .4);                                     // nice slow moving _enemies
 
             _enemies.push_back(aaa_enemy({pos}, .6));
         }
@@ -40,7 +39,10 @@ namespace aaa
 
     bn::string<16> aaa_planetoids::title() const
     {
-        return "Shoot Asteroids!";
+        bn::string<16> title = "Destroy ";
+        title.append(bn::to_string<2>(_asteroids));
+        title.append(" rocks");
+        return title;
     }
 
     int aaa_planetoids::total_frames() const
