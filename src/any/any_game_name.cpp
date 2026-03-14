@@ -1,4 +1,5 @@
 #include "any_game_name.h"
+#include "any_platform.h"
 #include "bn_sprite_items_astronaut.h"
 #include "bn_sprite_items_platform.h"
 #include "bn_sprite_items_moon.h"
@@ -50,10 +51,6 @@ any_game_name::any_game_name(int completed_games, const mj::game_data& data) :
         _platforms[2] = {59, -30}; 
         _moon_y = -65;
     }
-
-    _platform_sprite_1 = bn::sprite_items::platform.create_sprite(_platforms[0].x, _platforms[0].y); 
-    _platform_sprite_2 = bn::sprite_items::platform.create_sprite(_platforms[1].x, _platforms[1].y); 
-    _platform_sprite_3 = bn::sprite_items::platform.create_sprite(_platforms[2].x, _platforms[2].y);
     
     _moon_sprite = bn::sprite_items::moon.create_sprite(85, _moon_y);
     
