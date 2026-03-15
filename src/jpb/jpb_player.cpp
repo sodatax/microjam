@@ -16,7 +16,8 @@ namespace jpb {
     jpb_player::jpb_player(bn::fixed_point starting_position, bn::size size, bn::fixed speed) :
         _player_sprite(bn::sprite_items::jpb_ship.create_sprite(starting_position)),
         _speed(speed),
-        _player_box(create_bounding_box(_player_sprite, size))
+        _player_box(create_bounding_box(_player_sprite, size)),
+        _missile_count(15)
     {}
     
     void jpb_player::update() {
@@ -42,10 +43,15 @@ namespace jpb {
         return missile_box.intersects(enemy_box);
     }
 
+    int jpb_player::get_missile_count() const {
+        return _missile_count;
+    }
+
     void jpb_player::shoot(bn::vector<jpb_missile, 10>& _missiles) {
         if (bn::keypad::a_pressed()) {
-            if (_missiles.size() < 10 ) {
+            if (_missiles.size() < 10 && _missile_count > 0 ) {
                 _missiles.push_back(jpb_missile({_player_sprite.x(), _player_sprite.y()}, 3, {8, 8}));
+                _missile_count -= 1;
             }
         }
     }

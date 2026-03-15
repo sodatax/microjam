@@ -1,6 +1,9 @@
 #include "jpb/jpb_alien_shooter.h"
 #include "mj/mj_game_list.h"
 
+#include <bn_string.h>
+#include <bn_log.h>
+
 namespace
 {
     constexpr bn::string_view code_credits[] = { "Johncarlo", "John Baltazar" };
@@ -25,6 +28,7 @@ namespace jpb {
         _player(jpb_player({0, 30}, PLAYER_SIZE, 1.3)),
         _enemy(jpb_enemy({0, -30}, ENEMY_SIZE,
             _recommended_player_speed(recommended_difficulty_level(completed_games, data))))
+            
     {}
 
     bn::string<16> jpb_alien_shooter::title() const {
@@ -47,7 +51,7 @@ namespace jpb {
     mj::game_result jpb_alien_shooter::play([[maybe_unused]] const mj::game_data& data) {
         _player.update();
         _enemy.update();
-
+       
         _player.shoot(_missiles);
         for (jpb_missile& missile : _missiles) {
             missile.update();
@@ -60,6 +64,8 @@ namespace jpb {
                 _trashbin.push_back(missile);
             }
         }
+
+        BN_LOG("ammo: ", _player.get_missile_count());
 
         for (int i = 0; i < _trashbin.size(); i++ ) {
             _trashbin.pop_back();

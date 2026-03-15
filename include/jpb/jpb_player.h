@@ -29,11 +29,14 @@ class jpb_player {
         bool enemy_shot(bn::rect missile_box, bn::rect enemy_box) const;
 
         void shoot(bn::vector<jpb_missile, 10>& _missiles);
+
+        int get_missile_count() const;
     
         private:
             bn::sprite_ptr _player_sprite;
             bn::fixed _speed;
             bn::rect _player_box;
+            int _missile_count;
 };
 
 }

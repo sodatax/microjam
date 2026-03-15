@@ -6,6 +6,7 @@
 #include "jpb/jpb_enemy.h"
 #include "jpb/jpb_missile.h"
 #include <bn_vector.h>
+#include <bn_sprite_text_generator.h>
 
 namespace jpb {
 
@@ -33,6 +34,7 @@ namespace jpb {
         bn::vector <jpb_missile, 10> _missiles;
         bn::vector<jpb_missile, 10> _trashbin;
         bn::fixed _recommended_player_speed(mj::difficulty_level difficulty);
+       
   };
 }
 
