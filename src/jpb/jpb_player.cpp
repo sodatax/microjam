@@ -17,7 +17,7 @@ namespace jpb {
         _player_sprite(bn::sprite_items::jpb_ship.create_sprite(starting_position)),
         _speed(speed),
         _player_box(create_bounding_box(_player_sprite, size)),
-        _missile_count(15)
+        _missile_count(10)
     {}
     
     void jpb_player::update() {
