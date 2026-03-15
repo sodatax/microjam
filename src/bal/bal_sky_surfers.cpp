@@ -2,6 +2,8 @@
 #include "mj/mj_game_list.h"
 
 #include <bn_log.h>
+#include "bn_regular_bg_items_stary_bg.h"
+#include <bn_sprite_ptr.h>
 
 namespace
 {
@@ -30,7 +32,8 @@ bal_sky_surfers::bal_sky_surfers([[maybe_unused]] int completed_games, [[maybe_u
     _spawn_rocks(0),
     _difficulty_level(_recommended_player_speed(recommended_difficulty_level(completed_games, data))),
     _player_intersects(false),
-    _rng(data.random)
+    _rng(data.random),
+    _background(bn::regular_bg_items::stary_bg.create_bg())
     {}
 
 
