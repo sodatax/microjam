@@ -6,6 +6,7 @@
 
 #include "bn_sprite_items_jas_lander.h"
 #include "bn_sprite_items_jas_flames.h"
+#include "bn_sprite_items_jas_dot.h" // Using the dot as a placeholder for the explosion sprite
 #include "jas_player.h"
 
 // All game functions/classes/variables/constants scoped to the namespace
@@ -65,6 +66,13 @@ namespace jas
         }
         _flame_action.update();
     }
+
+    // Currently using the dot as a placeholder sprite.
+    void player::explode()
+    {
+        _sprite.set_item(bn::sprite_items::jas_dot.create_sprite(_sprite.x(),_sprite.y()));
+    }
+
     void player::engineOn(bn::fixed engine_thrust)
     {
         _vertical_speed -= engine_thrust;

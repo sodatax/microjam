@@ -41,6 +41,11 @@ namespace jas
         void update();
 
         /**
+         * Replaces the lander sprite with an explosion sprite, for indicating the player has lost
+         */
+        void explode();
+
+        /**
          * When actived, engineOn will increase the player's vertical speed upwards (-y direction)
          */
         void engineOn(bn::fixed engine_thrust);
