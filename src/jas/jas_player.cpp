@@ -4,7 +4,7 @@
 #include <bn_keypad.h>
 #include "bn_log.h"
 
-#include "bn_sprite_items_templander.h"
+#include "bn_sprite_items_new_lander.h"
 #include "jas_player.h"
 
 // All game functions/classes/variables/constants scoped to the namespace
@@ -17,7 +17,7 @@ namespace jas
      * @param starting_position the location to start the player at
      * @param speed the pixels/frame the player moves at in each dimension
      */
-    player::player(bn::fixed_point starting_position, bn::fixed vertical_speed, bn::fixed gravity) : _sprite(bn::sprite_items::templander.create_sprite(starting_position)),
+    player::player(bn::fixed_point starting_position, bn::fixed vertical_speed, bn::fixed gravity) : _sprite(bn::sprite_items::new_lander.create_sprite(starting_position)),
                                                                                                      _vertical_speed(vertical_speed),
                                                                                                      _gravity(gravity),
                                                                                                      _crashed(false)
