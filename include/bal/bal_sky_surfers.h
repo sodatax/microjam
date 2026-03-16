@@ -32,9 +32,9 @@ namespace bal
         player _bal_player;
         bn::vector<rock, 50> _rocks;
         int _spawn_rocks;
-        bn::random& _rng;
-        bool _player_intersects;
         int _difficulty_level;
+        bool _player_intersects;
+        bn::random& _rng;
         void spawn_rock();
         bn::fixed _recommended_player_speed(mj::difficulty_level difficulty);
         bn::regular_bg_ptr _background;
