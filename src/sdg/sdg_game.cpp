@@ -47,7 +47,8 @@ MJ_GAME_LIST_ADD_SFX_CREDITS(sfx_credits)
 namespace sdg{
     sdg_game::sdg_game([[maybe_unused]] int completed_games, [[maybe_unused]] const mj::game_data& data) :
     mj::game("sdg"),
-        _player(input(_code_difficulty(recommended_difficulty_level(completed_games, data)), data.random))
+        _player(input(_code_difficulty(recommended_difficulty_level(completed_games, data)), data.random)),
+        _background(bn::regular_bg_items::hyperdrivebg.create_bg())
     {
         // Get the randomly generated arrow pattern from the input system.
         const auto& pattern = _player.challenge();

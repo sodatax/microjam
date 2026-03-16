@@ -4,6 +4,7 @@
 
 #include <bn_sprite_ptr.h>
 #include <bn_vector.h>
+#include <bn_regular_bg_ptr.h>
 
 #include "mj/mj_game.h"
 #include "sdg/input.h"
@@ -39,6 +40,9 @@ namespace sdg{
         // Returns an array size that gradually increases, making codes longer
         // and therefore more difficult.
         int _code_difficulty(mj::difficulty_level difficulty);
+
+        // Game background.
+        bn::regular_bg_ptr _background;
 }; 
 }
 
