@@ -50,14 +50,14 @@ namespace mar
         {
             _sprite.set_y(_sprite.y() - _speed);
             _sprite_action = bn::create_sprite_animate_action_forever(
-                _sprite,1,bn::sprite_items::droid.tiles_item(),3,4
+                _sprite,2,bn::sprite_items::droid.tiles_item(),3,4
             );
         }
-        else
+        else if(_sprite.y() < MAX_Y)
         {
             _sprite.set_y(_sprite.y() + _speed/4);
             // _sprite_action = bn::create_sprite_animate_action_forever(
-            //     _sprite, 16, bn::sprite_items::droid.tiles_item(),0,1);
+            //     _sprite, 16, bn::sprite_items::droid.tiles_item(),0,3,4);
         }
 
         _sprite_action.update();
