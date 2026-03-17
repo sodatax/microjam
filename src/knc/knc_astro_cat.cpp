@@ -1,11 +1,12 @@
 #include "knc/knc_astro_cat.h"
 #include "mj/mj_game_list.h"
+#include "bn_sound_items.h"
 
 namespace {
     constexpr bn::string_view code_credits[] = { "knc" };
     constexpr bn::string_view graphics_credits[] = { "knc" };
     constexpr bn::string_view sfx_credits[] = { "" };
-    constexpr bn::string_view music_credits[] = { "" };
+    constexpr bn::string_view music_credits[] = { "knc" };
 }
 
 namespace knc {
@@ -46,6 +47,8 @@ namespace knc {
             _stars.push_back(shooting_star(bn::fixed_point(-120, -30), speed));
             _stars.push_back(shooting_star(bn::fixed_point(-340, 0), speed));
         }
+
+   play_sound(bn::sound_items::knc_fight_looped, completed_games, data);
     }
 
     bn::string<16> knc_astro_cat::title() const { return "Dodge Them Fire!"; }
