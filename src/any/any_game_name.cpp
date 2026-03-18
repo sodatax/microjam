@@ -17,7 +17,7 @@ namespace {
     constexpr bn::string_view code_credits[] = { "Anthony Margullis, Yousif Sultan" };
     constexpr bn::string_view graphics_credits[] = { "Anthony Margullis, Yousif Sultan" };
     constexpr bn::string_view sfx_credits[] = {""};
-    constexpr bn::string_view music_credits[] = {""};
+    constexpr bn::string_view music_credits[] = {"Anthony Margullis"};
 }
 
 MJ_GAME_LIST_ADD(any::any_game_name)
