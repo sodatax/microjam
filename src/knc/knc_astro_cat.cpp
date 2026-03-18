@@ -118,6 +118,8 @@ namespace knc {
         for(planet& p : _planets) {
             if(p.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
                 _hit = true;
+                // play this sound when collision happend
+                bn::sound_items::knc_lose.play();
             }
         }
 
@@ -125,6 +127,8 @@ namespace knc {
         for(shooting_star& s : _stars) {
             if(s.collides_with(_cat.position(), cat::COLLISION_RADIUS)) {
                 _hit = true;
+                // play this sound when collision happend
+                bn::sound_items::knc_lose.play();
             }
         }
 
