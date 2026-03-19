@@ -40,7 +40,7 @@ namespace mar
                                                                                                                          _background(bn::regular_bg_items::mar_bg.create_bg())
     {
         // Sound for Background
-        play_sound(bn::sound_items::mar_downfall.play, completed_games, data);
+        play_sound(bn::sound_items::mar_downfall, completed_games, data);
 
         bn::fixed diff = difficulty(recommended_difficulty_level(completed_games, data));
 

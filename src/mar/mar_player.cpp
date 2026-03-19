@@ -45,7 +45,10 @@ namespace mar
         else if (bn::keypad::up_held() && _sprite.y() > MIN_Y)
         {
             //  SFX for when player up_held
-            bn::sound_items::mar_rocket.play();
+            if (bn::keypad::up_pressed())
+            {
+                bn::sound_items::mar_boost.play();
+            }
 
             if (_sprite_action.current_index() < 2 && isFrameEven)
             {
